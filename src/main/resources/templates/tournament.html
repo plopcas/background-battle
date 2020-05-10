@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <object th:include="fragments/head :: main-head" th:remove="tag"/>
+</head>
+<body class="container">
+
+<h1 class="text-center mt-2">Background Battle</h1>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div>
+            <span>Tournament ID</span>
+            <span th:text="${@userSession.tournamentId}" style="font-weight:bold;"></span>
+        </div>
+        <div>
+            <span>Username</span>
+            <span th:text="${@userSession.username}" style="font-weight:bold;"></span>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div id="drop-region">
+            <div class="drop-message">
+                Drag & Drop images or click to upload
+            </div>
+            <div id="image-preview"></div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="form-group">
+            <button id="start-battle-btn" class="btn btn-primary" style="width:200px" disabled>Start</button>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+const username = [[${@userSession.username}]];
+const tournamentId = [[${@userSession.tournamentId}]];
+</script>
+<script src="/js/tournament.js"></script>
+
+</body>
+</html>
