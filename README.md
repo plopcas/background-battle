@@ -1,5 +1,6 @@
 # Background Battle
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ![logo](src/main/resources/static/images/android-icon-192x192.png)
 
