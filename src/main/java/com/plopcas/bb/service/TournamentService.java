@@ -10,6 +10,7 @@ import java.util.Map;
 
 @Service
 public class TournamentService {
+    // For now keeping all the tournaments in memory
     private Map<String, Tournament> activeTournaments = new HashMap<>();
 
     public Tournament saveTournament(Tournament tournament) {

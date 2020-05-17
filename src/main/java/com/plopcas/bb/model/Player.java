@@ -10,6 +10,10 @@ public class Player {
     public Player() {
     }
 
+    public Player(String username) {
+        this.username = username;
+    }
+
     public Player(String username, List<Image> images) {
         this.username = username;
         this.images = images;

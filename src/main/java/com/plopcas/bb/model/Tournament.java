@@ -6,6 +6,7 @@ import java.util.Map;
 public class Tournament {
     private String id;
     private Map<String, Player> players = new HashMap<>();
+    private Integer round = 0;
 
     public Tournament() {
     }
@@ -29,5 +30,13 @@ public class Tournament {
 
     public void setPlayers(Map<String, Player> players) {
         this.players = players;
+    }
+
+    public Integer getRound() {
+        return round;
+    }
+
+    public void setRound(Integer round) {
+        this.round = round;
     }
 }

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <object th:include="fragments/head :: main-head" th:remove="tag"/>
+    <meta http-equiv="refresh" content="5"/>
+</head>
+<body class="container">
+
+<h1 class="text-center mt-2">Background Battle</h1>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div>
+            <span>Tournament ID</span>
+            <span th:text="${@userSession.tournamentId}" style="font-weight:bold;"></span>
+        </div>
+        <div>
+            <span>Username</span>
+            <span th:text="${@userSession.username}" style="font-weight:bold;"></span>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div>
+            <span>Waiting for other players...</span>
+        </div>
+        <div>
+            <span>Ready:</span>
+            <ul th:each="readyPlayer : ${readyPlayers}">
+                <li th:text="${readyPlayer.username}"/>
+            </ul>
+        </div>
+        <div>
+            <span>Finding awesome backgrounds:</span>
+            <ul th:each="notReadyPlayer : ${notReadyPlayers}">
+                <li th:text="${notReadyPlayer.username}"/>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="form-group">
+            <button id="start-battle-btn" class="btn btn-primary" th:disabled="${!allowBattle}">Everyone's in</button>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4 d-none" id="spinner">
+    <div class="col-md-12">
+        <img src="/images/spinner.gif"/>
+    </div>
+</div>
+
+<script th:inline="javascript">
+const username = [[${@userSession.username}]];
+const tournamentId = [[${@userSession.tournamentId}]];
+</script>
+<script src="/js/waitingRoom.js"></script>
+
+</body>
+</html>

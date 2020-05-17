@@ -23,7 +23,7 @@ public class TournamentResource {
     public ResponseEntity<?> createTournament(@RequestBody String username) {
         Tournament tournament = new Tournament();
         Map<String, Player> players = tournament.getPlayers();
-        players.put(username, new Player());
+        players.put(username, new Player(username));
         return ResponseEntity.ok().body(tournamentService.saveTournament(tournament));
     }
 
@@ -34,7 +34,18 @@ public class TournamentResource {
         if (players.size() >= 8 && players.get(username) == null) {
             return ResponseEntity.badRequest().build();
         }
-        players.put(username, new Player());
+        players.put(username, new Player(username));
         return ResponseEntity.ok().body(tournamentService.saveTournament(tournament));
+    }
+
+    @PostMapping("/start/{id}")
+    public ResponseEntity<?> start(@PathVariable String id, @RequestBody String username) {
+        Tournament tournament= tournamentService.findTournamentById(id);
+        Map<String, Player> players = tournament.getPlayers();
+        if (players.size() >= 8 && players.get(username) == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        tournament.setRound(1);
+        return ResponseEntity.ok().build();
     }
 }

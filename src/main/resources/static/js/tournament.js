@@ -12,12 +12,16 @@ fakeInput.addEventListener("change", function() {
     handleFiles(files);
 });
 
-dropRegion.addEventListener('click', handleClick, false);
-dropRegion.addEventListener('dragenter', preventDefault, false);
-dropRegion.addEventListener('dragleave', preventDefault, false);
-dropRegion.addEventListener('dragover', preventDefault, false);
-dropRegion.addEventListener('drop', preventDefault, false);
-dropRegion.addEventListener('drop', handleDrop, false);
+dropRegion.addEventListener("click", handleClick, false);
+dropRegion.addEventListener("dragenter", preventDefault, false);
+dropRegion.addEventListener("dragleave", preventDefault, false);
+dropRegion.addEventListener("dragover", preventDefault, false);
+dropRegion.addEventListener("drop", preventDefault, false);
+dropRegion.addEventListener("drop", handleDrop, false);
+
+$("#start-battle-btn").click(function() {
+     goToWaitingRoom();
+ });
 
 function preventDefault(e) {
 	e.preventDefault();
@@ -35,8 +39,9 @@ function handleDrop(e) {
 	if (files.length) {
 		handleFiles(files);
 	} else {
+	    console.log("Check for img");
 		// check for img
-		var html = dt.getData('text/html'),
+		var html = dt.getData("text/html"),
 	        match = html && /\bsrc="?([^"\s]+)"?\s*/.exec(html),
 	        url = match && match[1];
 	    if (url) {
@@ -69,14 +74,21 @@ function handleDrop(e) {
 
 function handleFiles(files) {
 	for (var i = 0, len = files.length; i < len; i++) {
-		if (validateImage(files[i]))
-			previewAnduploadImage(files[i]);
+		if (validateImage(files[i])) {
+    		previewAnduploadImage(files[i]);
+    		imageCount++;
+		}
 	}
 }
 
 function validateImage(image) {
+	if (imageCount >= 3) {
+	    alert("Max 3 images");
+	    return false;
+	}
+
 	// check the type
-	var validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+	var validTypes = ["image/jpeg", "image/png", "image/gif"];
 	if (validTypes.indexOf( image.type ) === -1) {
 		alert("Invalid File Type");
 		return false;
@@ -116,10 +128,10 @@ function previewAnduploadImage(image) {
 
 	// create FormData
 	var formData = new FormData();
-	formData.append('image', image);
+	formData.append("image", image);
 
 	// upload the image
-	var uploadLocation = '/api/v1/images/'
+	var uploadLocation = "/api/v1/images/"
 
 	var ajax = new XMLHttpRequest();
 	ajax.open("POST", uploadLocation, true);
@@ -127,12 +139,11 @@ function previewAnduploadImage(image) {
 	ajax.onreadystatechange = function(e) {
 		if (ajax.readyState === 4) {
 			if (ajax.status === 200) {
-				imageCount++;
-				if (imageCount == 3) {
+				if (imageCount >= 3) {
 				    // enable button
-				    $('#start-battle-btn').prop('disabled', false);
-				    dropRegion.removeEventListener('click', handleClick, false);
-				    dropRegion.removeEventListener('drop', handleDrop, false);
+				    $("#start-battle-btn").prop("disabled", false);
+				    dropRegion.removeEventListener("click", handleClick, false);
+				    dropRegion.removeEventListener("drop", handleDrop, false);
 				}
 			} else {
 				// error!
@@ -148,8 +159,12 @@ function previewAnduploadImage(image) {
 		overlay.style.width = width;
 	}
 
-    formData.append('username', username);
-    formData.append('tournamentId', tournamentId);
+    formData.append("username", username);
+    formData.append("tournamentId", tournamentId);
 
 	ajax.send(formData);
+}
+
+function goToWaitingRoom() {
+    window.location.href = "/waiting";
 }
