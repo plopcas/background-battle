@@ -6,13 +6,15 @@ import java.util.Map;
 public class Tournament {
     private String id;
     private Map<String, Player> players = new HashMap<>();
+    private Integer maxPlayers = 3;
     private Integer round = 0;
 
     public Tournament() {
     }
 
-    public Tournament(String id, Map<String, Player> players) {
+    public Tournament(String id, Integer maxPlayers, Map<String, Player> players) {
         this.id = id;
+        this.maxPlayers = maxPlayers;
         this.players = players;
     }
 
@@ -38,5 +40,13 @@ public class Tournament {
 
     public void setRound(Integer round) {
         this.round = round;
+    }
+
+    public Integer getMaxPlayers() {
+        return maxPlayers;
+    }
+
+    public void setMaxPlayers(Integer maxPlayers) {
+        this.maxPlayers = maxPlayers;
     }
 }

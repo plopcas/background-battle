@@ -6,6 +6,7 @@ package com.plopcas.bb.model;
 public class UserSession {
     private String username;
     private String tournamentId;
+    private boolean host = false;
 
     public UserSession() {
     }
@@ -13,6 +14,12 @@ public class UserSession {
     public UserSession(String username, String tournamentId) {
         this.username = username;
         this.tournamentId = tournamentId;
+    }
+
+    public UserSession(String username, String tournamentId, Boolean host) {
+        this.username = username;
+        this.tournamentId = tournamentId;
+        this.host = host;
     }
 
     public String getUsername() {
@@ -29,5 +36,13 @@ public class UserSession {
 
     public void setTournamentId(String tournamentId) {
         this.tournamentId = tournamentId;
+    }
+
+    public boolean isHost() {
+        return host;
+    }
+
+    public void setHost(boolean host) {
+        this.host = host;
     }
 }

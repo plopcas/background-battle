@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <object th:include="fragments/head :: main-head" th:remove="tag"/>
+    <meta name="monetization" th:content="${@environment.getProperty('interledger.wallet')}">
 </head>
 <body class="container">
 
