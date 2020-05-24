@@ -43,7 +43,7 @@ function createTournament () {
 function joinTournament () {
     var tournamentId = $("#tournament-id").val().trim();
     $.ajax({
-        url: "/api/v1/tournaments/join/" + tournamentId,
+        url: "/api/v1/tournaments/" + tournamentId + "/join",
         type: "POST",
         contentType: "application/json;charset=utf-8",
         data: username,

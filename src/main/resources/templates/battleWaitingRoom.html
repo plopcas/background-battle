@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <object th:include="fragments/head :: main-head" th:remove="tag"/>
+    <meta http-equiv="refresh" content="5"/>
+</head>
+<body class="container">
+
+<h1 class="text-center mt-2">Background Battle</h1>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div>
+            <span>Tournament ID</span>
+            <span th:text="${@userSession.tournamentId}" style="font-weight:bold;"></span>
+        </div>
+        <div>
+            <span>Username</span>
+            <span th:text="${@userSession.username}" style="font-weight:bold;"></span>
+        </div>
+        <div th:if="${@userSession.host}">
+            <span>You are the HOST!</span>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div>
+            <span>Waiting for other players to vote...</span>
+        </div>
+        <div>
+            <span th:text="|Voted ${playersVoted} out of ${playersTotal}|"/>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4" th:if="${showWinner != null and showWinner == true}">
+    <div class="col-md-12">
+        <div>
+            <span th:if="${tie == null}">The winner is...</span>
+            <span th:if="${tie != null}">It's a tie! Defender (left) wins</span>
+        </div>
+        <div>
+            <img th:src="${winner.imageUrl}" style="max-width:300px"/>
+        </div>
+        <div>
+            <span th:text="|By ${winner.username}|"/>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4" th:if="${@userSession.host}">
+    <div class="col-md-12">
+        <div class="form-group">
+            <button id="next-round-btn" class="btn btn-primary" th:disabled="${!allowNextRound}">Go to next round
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4 d-none" id="spinner">
+    <div class="col-md-12">
+        <img src="/images/spinner.gif"/>
+    </div>
+</div>
+
+<script th:inline="javascript">
+const username = [[${@userSession.username}]];
+const tournamentId = [[${@userSession.tournamentId}]];
+
+
+</script>
+<script src="/js/battleWaitingRoom.js"></script>
+
+</body>
+</html>

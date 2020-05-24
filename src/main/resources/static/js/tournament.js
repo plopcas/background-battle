@@ -29,10 +29,18 @@ function preventDefault(e) {
 }
 
 function handleClick(event) {
+    $(".progress-bar").addClass("notransition");
+    $('.progress-bar').css('width', '0%');
+    $(".progress-bar").removeClass("notransition");
+    $('.progress').show();
     fakeInput.click();
 }
 
 function handleDrop(e) {
+    $(".progress-bar").addClass("notransition");
+    $('.progress-bar').css('width', '0%');
+    $(".progress-bar").removeClass("notransition");
+    $('.progress').show();
 	var dt = e.dataTransfer,
 		files = dt.files;
 
@@ -73,6 +81,7 @@ function handleDrop(e) {
 }
 
 function handleFiles(files) {
+    $('.progress-bar').css('width', '25%');
 	for (var i = 0, len = files.length; i < len; i++) {
 		if (validateImage(files[i])) {
     		previewAnduploadImage(files[i]);
@@ -82,6 +91,8 @@ function handleFiles(files) {
 }
 
 function validateImage(image) {
+	$('.progress-bar').css('width', '50%');
+
 	if (imageCount >= 3) {
 	    alert("Max 3 images");
 	    return false;
@@ -90,6 +101,7 @@ function validateImage(image) {
 	// check the type
 	var validTypes = ["image/jpeg", "image/png", "image/gif"];
 	if (validTypes.indexOf( image.type ) === -1) {
+		$('.progress-bar').css('width', '0%');
 		alert("Invalid File Type");
 		return false;
 	}
@@ -97,10 +109,12 @@ function validateImage(image) {
 	// check the size
 	var maxSizeInBytes = 10e6; // 10MB
 	if (image.size > maxSizeInBytes) {
+	    $('.progress-bar').css('width', '0%');
 		alert("File too large");
 		return false;
 	}
 
+    $('.progress-bar').css('width', '75%');
 	return true;
 }
 
@@ -139,6 +153,8 @@ function previewAnduploadImage(image) {
 	ajax.onreadystatechange = function(e) {
 		if (ajax.readyState === 4) {
 			if (ajax.status === 200) {
+			    $('.progress-bar').css('width', '100%');
+			    $('.progress').delay(1000).hide(0);
 				if (imageCount >= 3) {
 				    // enable button
 				    $("#start-battle-btn").prop("disabled", false);

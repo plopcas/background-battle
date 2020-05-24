@@ -36,13 +36,13 @@ public class WaitingRoomController {
         model.addAttribute("notReadyPlayers", notReadyPlayers);
         model.addAttribute("readyPlayers", readyPlayers);
         model.addAttribute("round", tournament.getRound());
-        if (notReadyPlayers.size() == 0 && readyPlayers.size() >= 3) {
+        if (notReadyPlayers.size() == 0 && readyPlayers.size() >= 2) {
             model.addAttribute("allowBattle", true);
         } else {
             model.addAttribute("allowBattle", false);
         }
         if (tournament.getRound() >= 1) {
-            return "battle";
+            return "redirect:/battle";
         } else {
             return "waitingRoom";
         }

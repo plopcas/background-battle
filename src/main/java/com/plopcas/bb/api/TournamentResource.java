@@ -1,6 +1,7 @@
 package com.plopcas.bb.api;
 
 import com.plopcas.bb.model.Player;
+import com.plopcas.bb.model.Round;
 import com.plopcas.bb.model.Tournament;
 import com.plopcas.bb.service.TournamentService;
 import org.apache.commons.lang3.StringUtils;
@@ -8,7 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
@@ -34,7 +40,7 @@ public class TournamentResource {
         return ResponseEntity.ok().body(tournamentService.saveTournament(tournament));
     }
 
-    @PostMapping("/join/{id}")
+    @PostMapping("/{id}/join")
     public ResponseEntity<?> joinTournament(@PathVariable String id, @RequestBody String username) {
         Tournament tournament = tournamentService.findTournamentById(id);
         Map<String, Player> players = tournament.getPlayers();
@@ -45,7 +51,7 @@ public class TournamentResource {
         return ResponseEntity.ok().body(tournamentService.saveTournament(tournament));
     }
 
-    @PostMapping("/start/{id}")
+    @PostMapping("/{id}/start")
     public ResponseEntity<?> start(@PathVariable String id, @RequestBody String username) {
         Tournament tournament = tournamentService.findTournamentById(id);
         Map<String, Player> players = tournament.getPlayers();
@@ -53,6 +59,22 @@ public class TournamentResource {
             return ResponseEntity.badRequest().build();
         }
         tournament.setRound(1);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{id}/rounds/{roundNumber}/left")
+    public ResponseEntity<?> voteLeft(@PathVariable String id, @PathVariable String roundNumber, @RequestBody String username) {
+        Tournament tournament = tournamentService.findTournamentById(id);
+        Round round = tournament.getRounds().get(Integer.parseInt(roundNumber) - 1);
+        round.getPlayersThatVotedLeft().add(username);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{id}/rounds/{roundNumber}/right")
+    public ResponseEntity<?> voteRight(@PathVariable String id, @PathVariable String roundNumber, @RequestBody String username) {
+        Tournament tournament = tournamentService.findTournamentById(id);
+        Round round = tournament.getRounds().get(Integer.parseInt(roundNumber) - 1);
+        round.getPlayersThatVotedRight().add(username);
         return ResponseEntity.ok().build();
     }
 }

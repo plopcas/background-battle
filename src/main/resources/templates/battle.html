@@ -10,12 +10,35 @@
 <div class="row mt-4">
     <div class="col-md-12">
         <div class="form-group">
-           <span>Battle!</span>
+            <span>Battle! </span>
+            <span th:text="|Round ${roundNumber}|"></span>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div>
+            <img th:src="${round.left.imageUrl}" style="max-width:300px"/>
+        </div>
+        <div class="my-1">
+            <button id="vote-left-btn" class="btn btn-primary">Vote me</button>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div>
+            <img th:src="${round.right.imageUrl}" style="max-width:300px"/>
+        </div>
+        <div class="my-1">
+            <button id="vote-right-btn" class="btn btn-primary">Vote me</button>
         </div>
     </div>
 </div>
 
 <script th:inline="javascript">
+const username = [[${@userSession.username}]];
+const tournamentId = [[${@userSession.tournamentId}]];
+const roundNumber = [[${roundNumber}]]
 </script>
 
 <script src="/js/battle.js"></script>

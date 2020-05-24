@@ -4,7 +4,7 @@ $("#start-battle-btn").click(function() {
 
 function goToBattle() {
     $.ajax({
-        url: "/api/v1/tournaments/start/" + tournamentId,
+        url: "/api/v1/tournaments/" + tournamentId + "/start",
         type: "POST",
         contentType: "application/json;charset=utf-8",
         data: username,
